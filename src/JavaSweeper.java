@@ -12,6 +12,7 @@ public class JavaSweeper extends JFrame {
     private Game game;
 
     private JPanel panel;
+    private JLabel label;
     private final int COLS = 9;
     private final int ROWS = 9;
     private final int IMAGE_SIZE = 50;
@@ -26,8 +27,14 @@ public class JavaSweeper extends JFrame {
         game = new Game(COLS, ROWS, BOMBS);
         game.start();
         setImage();
+        initLabel();
         initPanel();
         initFrame();
+    }
+
+    private void initLabel() {
+        label = new JLabel("Welcome!");
+        add(label, BorderLayout.SOUTH);
     }
 
     private void initPanel() {
@@ -50,8 +57,16 @@ public class JavaSweeper extends JFrame {
                 if(e.getButton() == MouseEvent.BUTTON1) {
                     game.pressLeftButton(coord);
                 }
+                if(e.getButton() == MouseEvent.BUTTON3) {
+                    game.pressRightButton(coord);
+                }
+                if(e.getButton() == MouseEvent.BUTTON2) {
+                    game.start();
+                }
+                    label.setText(getMessage());
                     panel.repaint();
             }
+
         });
 
         panel.setPreferredSize(new Dimension(
@@ -63,12 +78,22 @@ public class JavaSweeper extends JFrame {
     private void initFrame() {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setTitle("JavaSweeper");
-        setLocationRelativeTo(null);
         setResizable(false);
         setVisible(true);
-        setIconImage(getImage("icon"));
         pack();
+        setLocationRelativeTo(null);
+        setIconImage(getImage("icon"));
     }
+
+    private String getMessage() {
+        switch (game.getState()) {
+            case PlAYED: return "Think twice!";
+            case BOMBED: return "GAME OVER";
+            case WINNER: return "You Win! CONGRATULATIONS!";
+            default: return "Welcome the game!";
+        }
+    }
+
     private void setImage() {
         for(Box box : Box.values()) {
             box.image = getImage(box.name().toLowerCase());

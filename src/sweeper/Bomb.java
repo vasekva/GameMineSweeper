@@ -27,6 +27,10 @@ class Bomb {
         }
     }
 
+    int getTotalBombs() {
+        return totalBombs;
+    }
+
     private void placeBomb() {
         while(true) {
             Coord coord = Ranges.getRandomCoord();
