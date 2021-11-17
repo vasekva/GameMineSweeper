@@ -1,0 +1,2 @@
+# GameMineSweeper
+Игра "Сапёр"
